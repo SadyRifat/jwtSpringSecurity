@@ -15,6 +15,7 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationProvider authenticationProvider;

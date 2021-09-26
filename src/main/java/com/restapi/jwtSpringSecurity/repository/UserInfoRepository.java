@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserCredentialRepository extends JpaRepository<UserInfo, String> {
+public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
     @Query("SELECT user FROM UserInfo user WHERE user.username=:username")
     Optional<UserInfo> findByUsername(String username);
 

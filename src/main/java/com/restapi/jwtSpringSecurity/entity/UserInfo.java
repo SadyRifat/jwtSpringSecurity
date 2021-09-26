@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Entity
-@Table(	name = "user", schema = "credential",
-		uniqueConstraints = { 
+@Table(	name = "user", schema = "jwt_spring_security_db",
+		uniqueConstraints = {
 			@UniqueConstraint(columnNames = "username"),
 			@UniqueConstraint(columnNames = "email")
 		})

@@ -1,7 +1,6 @@
 package com.restapi.jwtSpringSecurity.filter;
 
 import com.google.gson.Gson;
-import com.restapi.jwtSpringSecurity.entity.Role;
 import com.restapi.jwtSpringSecurity.enums.ERole;
 import com.restapi.jwtSpringSecurity.model.Consumer;
 import com.restapi.jwtSpringSecurity.service.JWTService;
@@ -21,8 +20,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Slf4j
 public class AuthTokenFilter extends AbstractAuthenticationProcessingFilter {
@@ -37,15 +37,10 @@ public class AuthTokenFilter extends AbstractAuthenticationProcessingFilter {
         JWTService jwtService = new JWTService ();
         String token = parseJwt (httpServletRequest);
         if (token == null || token.isEmpty ()) {
-            authentication = new UsernamePasswordAuthenticationToken (ERole.ROLE_ANONYMOUS.name (), "");
-        } else if (jwtService.validateJwtToken (token)){
+            authentication = new UsernamePasswordAuthenticationToken (new Consumer ("", new HashSet<> (List.of (ERole.ROLE_ANONYMOUS))), "");
+        } else if (jwtService.validateJwtToken (token)) {
             Gson gson = new Gson();
             String subjectDataFromJwtToken = jwtService.getSubjectDataFromJwtToken (token);
-            Consumer consumer = new Consumer ();
-            consumer.setConsumerID ("4563534");
-            Set<ERole> set = new HashSet<> ();
-            set.add (ERole.ROLE_ADMIN);
-            consumer.setERoles (set);
             authentication = new UsernamePasswordAuthenticationToken(gson.fromJson (subjectDataFromJwtToken, Consumer.class), "");
         } else {
             throw new Exception ("Invalid Payload");

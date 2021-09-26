@@ -23,7 +23,7 @@ public class MarkdownAuthProvider extends AbstractUserDetailsAuthenticationProvi
         if (!principal.getConsumerID ().isEmpty ()) {
             return new User (principal.getConsumerID (), "", AuthorityUtils.createAuthorityList(principal.getERoles ().stream ().map (Enum::name).toArray (String[]::new)));
         } else {
-            return new User ("", "", AuthorityUtils.createAuthorityList(ERole.ROLE_ANONYMOUS.name ()));
+            return new User ("ANONYMOUS", "", AuthorityUtils.createAuthorityList(principal.getERoles ().stream ().map (Enum::name).toArray (String[]::new)));
         }
     }
 }

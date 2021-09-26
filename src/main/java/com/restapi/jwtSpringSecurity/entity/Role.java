@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "role", schema = "credential")
+@Table(name = "role", schema = "jwt_spring_security_db")
 public class Role {
 	@Id
 	@Column(name = "id")
