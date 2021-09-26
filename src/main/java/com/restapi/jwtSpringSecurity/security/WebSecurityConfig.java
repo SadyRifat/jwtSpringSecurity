@@ -1,6 +1,6 @@
 package com.restapi.jwtSpringSecurity.security;
 
-import com.restapi.jwtSpringSecurity.filter.AuthFilter;
+import com.restapi.jwtSpringSecurity.filter.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -15,7 +15,6 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationProvider authenticationProvider;
@@ -38,14 +37,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors();
     }
 
-    public AuthFilter authFIlter() throws Exception {
+    public AuthTokenFilter authFIlter() throws Exception {
         OrRequestMatcher orRequestMatcher = new OrRequestMatcher(
-                new AntPathRequestMatcher ("/user/**"),
-                new AntPathRequestMatcher("/token/**"),
-                new AntPathRequestMatcher("/role/**")
+                new AntPathRequestMatcher ("/test/**")
         );
-        AuthFilter authFilter = new AuthFilter(orRequestMatcher);
-        authFilter.setAuthenticationManager(authenticationManager());
-        return authFilter;
+        AuthTokenFilter authTokenFilter = new AuthTokenFilter (orRequestMatcher);
+        authTokenFilter.setAuthenticationManager(authenticationManager());
+        return authTokenFilter;
     }
 }
